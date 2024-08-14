@@ -18,29 +18,32 @@ func getValues(data []string) (values []int) {
 
 // opcode - either 1, 2, or 99
 func getPart1(numbers []int) (result int) {
-	numbers[1] = 12
-	numbers[2] = 2
+	fmt.Println(numbers)
 
+outerLoop:
 	for i := 0; i < len(numbers); i += 4 {
-		// opcode to stop the program or trying to access out-of-bounds index
-		if numbers[i] == 99 || numbers[i+3] >= len(numbers) {
-			break
-		}
-
+		fmt.Println(numbers[i])
+		input1 := i + 1
+		input2 := i + 2
+		output := i + 3
 		switch numbers[i] {
+		case 99:
+			break outerLoop
 		case 1:
-			numbers[numbers[i+3]] = numbers[numbers[i+1]] + numbers[numbers[i+2]]
+			numbers[output] = numbers[input1] + numbers[input2]
 		case 2:
-			numbers[numbers[i+3]] = numbers[numbers[i+1]] * numbers[numbers[i+2]]
+			numbers[i+3] = numbers[i+1] * numbers[i+2]
 		}
+		fmt.Println(numbers)
 	}
-	return numbers[0]
+
+	return
 }
 
 func main() {
 	fmt.Println("---- Day 2 ----")
 
-	data, _ := utils.ReadCSVFile("input.txt")
+	data, _ := utils.ReadCSVFile("example.txt")
 	numbers := getValues(data)
 
 	resultPart1 := getPart1(numbers)
